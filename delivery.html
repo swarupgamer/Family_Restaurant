@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Delivery — The Delight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand"><span class="brand-mark">◆</span> The Delight</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="form-section" id="formView">
+    <div class="form-image form-image-delivery"></div>
+    <div class="form-card">
+      <p class="eyebrow">Home Delivery</p>
+      <h2>Get Food at Your Doorstep</h2>
+      <form id="deliveryForm" class="styled-form">
+        <label>Name <input type="text" name="name" placeholder="Your full name" required></label>
+        <label>Mobile No. <input type="tel" name="mobile" placeholder="10-digit mobile number" pattern="[0-9]{10}" required></label>
+        <label>Address <input type="text" name="address" placeholder="Delivery address" required></label>
+        <label>Email <input type="email" name="email" placeholder="you@example.com" required></label>
+        <button type="submit" class="btn btn-primary btn-block">Login &amp; Order</button>
+      </form>
+    </div>
+  </section>
+  <section class="confirm-section" id="confirmView" style="display:none;">
+    <div class="confirm-card">
+      <div class="confirm-icon">✓</div>
+      <h2>Order Confirmed</h2>
+      <p id="confirmMsg"></p>
+      <a href="index.html" class="btn btn-primary">Back to Home</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-brand">The Delight</p>
+    <p>Serving Delicious Food, made with warmth.</p>
+    <div class="footer-links">
+      <a href="booking.html">Book a Table</a>
+      <a href="delivery.html">Home Delivery</a>
+      <a href="feedback.html">Feedback</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 The Delight. All rights reserved.</p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+<script src="js/db.js"></script>
+<script src="js/script.js"></script>
+<script>
+  document.getElementById("deliveryForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await dbReady;
+    const f = e.target;
+    const name = f.name.value.trim();
+    const mobile = f.mobile.value.trim();
+    const address = f.address.value.trim();
+    const email = f.email.value.trim();
+    runQuery("INSERT INTO delivery_orders (name, mobile, address, email) VALUES (?, ?, ?, ?)", [name, mobile, address, email]);
+    document.getElementById("confirmMsg").innerHTML = `Thank you, ${name}! Your home delivery order has been placed. Our team will call you shortly to confirm.`;
+    document.getElementById("formView").style.display = "none";
+    document.getElementById("confirmView").style.display = "flex";
+  });
+</script>
+</body>
+</html>
